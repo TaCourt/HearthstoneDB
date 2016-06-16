@@ -29,7 +29,7 @@ namespace HearthstoneDB.ViewModel
             }
             get
             {
-                return _usernameValue;
+                return _usernameValue ;
             }
         }
         public String password;

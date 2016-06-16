@@ -1,0 +1,30 @@
+﻿<Window x:Class="HearthstoneDB.View.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HearthstoneDB.View"
+        mc:Ignorable="d"
+        Title="LoginView" Height="300" Width="250">
+    <Grid>
+        <StackPanel Margin="10">
+            <Label Content="Login" FontSize="24" />
+
+            <Label Content="Username:" />
+            <TextBox Height="30" FontSize="17" Name="Username" Text="{Binding UsernameValue,UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Content="Password:" />
+            <PasswordBox Height="30" FontSize="17" Name="Password" />
+            <Grid Margin="20, 20, 20, 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Button Content="Login" Grid.Row="0" Margin="20,5,20, 0" Command="{Binding OnLoginCommand, UpdateSourceTrigger=PropertyChanged}" IsDefault="True" />
+                <Button Margin="50,10,50,0" Content="Create User" Grid.Row="1" Command="{Binding OnCreateUserCommand}" />
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</Window>

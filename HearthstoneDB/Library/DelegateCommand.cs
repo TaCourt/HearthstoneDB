@@ -11,7 +11,7 @@ namespace Library
     {
         private readonly Action<object> _execute;
         private readonly Predicate<object> _canExecute;
-        private readonly EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {
@@ -36,19 +36,6 @@ namespace Library
         {
             _execute = execute;
             _canExecute = canExecute;
-        }
-
-        event EventHandler ICommand.CanExecuteChanged
-        {
-            add
-            {
-                
-            }
-
-            remove
-            {
-                
-            }
         }
 
         public void RaiseCanExecuteChanged()

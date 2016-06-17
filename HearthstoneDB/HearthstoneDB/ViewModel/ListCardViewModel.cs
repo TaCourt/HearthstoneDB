@@ -34,6 +34,35 @@ namespace HearthstoneDB.ViewModel
         public double FontSize { get; set; } = 15;
         #endregion
 
+        public bool _isGoldenNotChecked;
+        public bool IsGoldenNotChecked
+        {
+            get
+            {
+                return _isGoldenNotChecked;
+            }
+            set
+            {
+                _isGoldenNotChecked = value;
+                NotifyPropertyChanged("IsGoldenNotChecked");
+            }
+        }
+
+        public bool _isGoldenChecked;
+        public bool IsGoldenChecked
+        {
+            get
+            {
+                return _isGoldenChecked;
+            }
+            set
+            {
+                _isGoldenChecked = value;
+                IsGoldenNotChecked = !value;
+                NotifyPropertyChanged("IsGoldenChecked");
+            }
+        }
+
         private String _searchBar;
         public String SearchBar
         {
@@ -45,6 +74,9 @@ namespace HearthstoneDB.ViewModel
             {
                 _searchBar = value;
                 NotifyPropertyChanged("SearchBar");
+                OnSearchCommand.RaiseCanExecuteChanged();
+                if (_searchBar == "")
+                    CardListToShow = CardList;
             }
         }
 
@@ -164,6 +196,8 @@ namespace HearthstoneDB.ViewModel
                 IsLayoutVisible = true;
                 NotifyPropertyChanged("Card");
                 NotifyPropertyChanged("CardList");
+                OnEditCommand.RaiseCanExecuteChanged();
+                OnDeleteCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -209,13 +243,13 @@ namespace HearthstoneDB.ViewModel
                     Cost = 10,
                     Effect = "Deals 10 damage",
                     Story = "Take the time for an evil laugh after you draw this card.",
-                    ImagePath = "..\\Images\\pyro.png"
+                    ImagePath = "..\\Images\\Cards\\pyro.png"
                     
                 },
                 new Minion
                 {
                     Name = "Leeroy Jenkins",
-                    ImagePath = "..\\Images\\leeroy.png",
+                    ImagePath = "..\\Images\\Cards\\leeroy.png",
                     Strength = 6,
                     HealthPoints = 2,
                     Cost = 5,
@@ -226,7 +260,7 @@ namespace HearthstoneDB.ViewModel
                 new Minion
                 {
                     Name = "Alextraza",
-                    ImagePath = "..\\Images\\Alex.png",
+                    ImagePath = "..\\Images\\Cards\\Alex.png",
                     Strength = 8,
                     HealthPoints = 8,
                     Cost = 9,
@@ -237,7 +271,7 @@ namespace HearthstoneDB.ViewModel
                 new Minion
                 {
                     Name = "Doomsayer",
-                    ImagePath = "..\\Images\\Doomsayer.png",
+                    ImagePath = "..\\Images\\Cards\\Doomsayer.png",
                     Strength = 0,
                     HealthPoints = 7,
                     Cost = 2,
@@ -248,7 +282,7 @@ namespace HearthstoneDB.ViewModel
                 new Minion
                 {
                     Name = "Flamewaker",
-                    ImagePath = "..\\Images\\Flamewaker.png",
+                    ImagePath = "..\\Images\\Cards\\Flamewaker.png",
                     Strength = 2,
                     HealthPoints = 4,
                     Cost = 3,
@@ -259,7 +293,7 @@ namespace HearthstoneDB.ViewModel
                 new Spell
                 {
                     Name = "Equality",
-                    ImagePath = "..\\Images\\Equality.png",
+                    ImagePath = "..\\Images\\Cards\\Equality.png",
                     Cost = 2,
                     Effect = "Change the Health of ALL minions to 1.",
                     Rarity = "Rare",
@@ -268,7 +302,7 @@ namespace HearthstoneDB.ViewModel
                 new Minion
                 {
                     Name = "Acolyte of pain",
-                    ImagePath = "..\\Images\\AcolyteofPain.png",
+                    ImagePath = "..\\Images\\Cards\\AcolyteofPain.png",
                     Strength = 1,
                     HealthPoints = 3,
                     Cost = 3,
@@ -279,7 +313,7 @@ namespace HearthstoneDB.ViewModel
                 new Spell
                 {
                     Name = "Ice barrier",
-                    ImagePath = "..\\Images\\IceBarrier.png",
+                    ImagePath = "..\\Images\\Cards\\IceBarrier.png",
                     Cost = 3,
                     Effect = "Secret: When your hero is attacked, gain 8 Armor.",
                     Rarity = "Common",
@@ -291,6 +325,7 @@ namespace HearthstoneDB.ViewModel
 
             CardListToShow = CardList;
             IsLayoutVisible = false;
+            IsGoldenChecked = false;
             OnAddCommand = new DelegateCommand(AddAction, CanAddCommand);
             OnEditCommand = new DelegateCommand(EditAction, CanEditCommand);
             OnDeleteCommand = new DelegateCommand(DeleteAction, CanDeleteCommand);
@@ -347,13 +382,11 @@ namespace HearthstoneDB.ViewModel
          }
 
         private void SearchAction(Object o)
-        {
-            if (SearchBar != null)
-                CardListToShow = new ObservableCollection<Card>(CardList.Where(c => c.Name == SearchBar));
-            else if(SearchBar == "")
-                CardListToShow = CardList;
-
+        { 
+            CardListToShow = new ObservableCollection<Card>(CardList.Where(c => c.Name == SearchBar));
             NotifyPropertyChanged("CardListToShow");
+           
+
         }
 
 
@@ -392,6 +425,7 @@ namespace HearthstoneDB.ViewModel
 
         }
 
+
         private bool CanAddCommand(Object o)
         {
             return true;
@@ -404,12 +438,12 @@ namespace HearthstoneDB.ViewModel
 
         private bool CanDeleteCommand(Object o)
         {
-            return true;
+            return Card != null;
         }
 
         private bool CanSearchCommand(Object o)
         {
-            return true;//!String.IsNullOrEmpty(SearchBar);
+            return !String.IsNullOrEmpty(SearchBar);
         }
 
     }

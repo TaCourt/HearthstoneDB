@@ -144,31 +144,31 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\leeroy.png" />
+    <Resource Include="Images\Cards\leeroy.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\bande.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\pyro.png" />
+    <Resource Include="Images\Cards\pyro.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Alex.png" />
+    <Resource Include="Images\Cards\Alex.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Doomsayer.png" />
+    <Resource Include="Images\Cards\Doomsayer.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Flamewaker.png" />
+    <Resource Include="Images\Cards\Flamewaker.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Equality.png" />
+    <Resource Include="Images\Cards\Equality.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\IceBarrier.png" />
+    <Resource Include="Images\Cards\IceBarrier.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\AcolyteofPain.png" />
+    <Resource Include="Images\Cards\AcolyteofPain.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Flèche.png" />

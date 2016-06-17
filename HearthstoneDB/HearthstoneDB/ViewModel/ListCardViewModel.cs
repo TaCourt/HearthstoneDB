@@ -342,9 +342,10 @@ namespace HearthstoneDB.ViewModel
             Add.Name = "Add";
             Add.ShowDialog();
 
+
             if (Add.ViewModel.IsAdd)
             {
-                CardList.Add(Add.ViewModel.CardToAdd);
+                    CardList.Add(Add.ViewModel.CardToAdd);
             }
 
              NotifyPropertyChanged("CardList");
@@ -378,6 +379,7 @@ namespace HearthstoneDB.ViewModel
                 CardList.Remove(Card);
                 NotifyPropertyChanged("CardList");
             }
+            IsLayoutVisible = false;
 
          }
 

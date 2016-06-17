@@ -39,10 +39,9 @@ namespace HearthstoneDB.Models
             Strength = strength;
             HealthPoints = healthPoints;
         }
-
         public Minion()
         {
-            // TODO: Complete member initialization
+            
         }
         
     }

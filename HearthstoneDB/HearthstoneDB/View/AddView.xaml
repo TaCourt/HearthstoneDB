@@ -3,15 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:HearthstoneDB"
         xmlns:vm="clr-namespace:HearthstoneDB.ViewModel"
+        xmlns:conv="clr-namespace:HearthstoneDB.Converters"
         DataContext="vm:AddViewModel"
-        Title="AddView" Height="400" Width="300">
-    <StackPanel Orientation="Vertical">
-        <TextBlock Text="Add a card" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="10,10,0,0"></TextBlock>
+        Title="AddView" Height="580" Width="300" MaxWidth="400">
+    <Window.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="..\Images\ParcheminFnd.jpg" Opacity="0.9" ></ImageBrush>
+    </Window.Background>
+
+
+
+    <StackPanel Orientation="Vertical" Margin="15">
+        <TextBlock Text="{Binding Title}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="25" Margin="10,10,0,0"></TextBlock>
         <StackPanel Orientation="Vertical" Margin="10,10,10,10">
             
             <StackPanel Margin="0,0,0,5" Orientation="Horizontal" >
-                <RadioButton Content="Minion" IsChecked="True" Margin="0,0,10,0"></RadioButton>
-                <RadioButton Content="Spell"></RadioButton>
+                <RadioButton Content="Minion" IsChecked="{Binding WillItBeAMinion}" Margin="0,0,10,0"></RadioButton>
+                <RadioButton Content="Spell" IsChecked="{Binding WillItBeASpell}"></RadioButton>
             </StackPanel>
             <TextBlock Text="Name"></TextBlock>
             <TextBox  Text="{Binding CardToAdd.Name,UpdateSourceTrigger=LostFocus}" ></TextBox>
@@ -20,20 +30,28 @@
                 <ComboBoxItem IsSelected="True">Common</ComboBoxItem>
                 <ComboBoxItem>Rare</ComboBoxItem>
                 <ComboBoxItem>Epic</ComboBoxItem>
-                <ComboBoxItem>Legendary</ComboBoxItem>
+                <ComboBoxItem Visibility="{Binding WillItBeAMinion,Converter={StaticResource BoolToVisibility}}">Legendary</ComboBoxItem>
             </ComboBox>
             <TextBlock>Cost</TextBlock>
             <TextBox Text="{Binding CardToAdd.Cost}"></TextBox>
+
+            <StackPanel Margin="20" Orientation="Horizontal" Visibility="{Binding WillItBeAMinion,Converter={StaticResource BoolToVisibility}}" >
+                <TextBlock Margin="10,0,0,0" >Strength</TextBlock>
+                <TextBox Width="20" Margin="10,0,30,0" Text="{Binding CardToAdd.Strength}" ></TextBox>
+                <TextBlock>Health</TextBlock>
+                <TextBox Width="20" Margin="10,0,20,0" Text="{Binding CardToAdd.HealthPoints}" ></TextBox>
+            </StackPanel>
+            
             <TextBlock>Effect</TextBlock>
             <TextBox Text="{Binding CardToAdd.Effect}" SpellCheck.IsEnabled="True" Language="en-US"></TextBox>
             <TextBlock>Story</TextBlock>
             <TextBox Text="{Binding CardToAdd.Story}" SpellCheck.IsEnabled="True" Language="en-US" Height="40" TextWrapping="Wrap"></TextBox>
             <TextBlock>Image</TextBlock>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding CardToAdd.ImagePath}" Width="100" Name="ImagePath" Margin="0,0,10,0"></TextBox>
-                <Button Command="{Binding OnBrowseCommand}">Browse</Button>
+                <TextBox VerticalAlignment="Top" Text="{Binding CardToAdd.ImagePath}" MaxHeight="30" Width="180" Name="ImagePath" Margin="0,0,10,0"></TextBox>
+                <Button VerticalAlignment="Top" Command="{Binding OnBrowseCommand}" MaxHeight="20">Browse</Button>
             </StackPanel>
-            
+            <Image Margin="10,20,0,10" MaxHeight="70" MaxWidth="70" Source="{Binding CardToAdd.ImagePath}" ></Image>
 
 
         </StackPanel>

@@ -16,6 +16,43 @@ namespace HearthstoneDB.ViewModel
         public DelegateCommand OnSaveCommand { get; set; }
         public DelegateCommand OnCancelCommand { get; set; }
 
+        public string Title { get; set; }
+
+        private bool _willItBeASpell;
+        public bool WillItBeASpell
+        {
+            get
+            {
+                return _willItBeASpell;
+            }
+            set
+            {
+                _willItBeASpell = value;
+                NotifyPropertyChanged("CardToAdd");
+                NotifyPropertyChanged("WillitBeASpell");
+            }
+        }
+
+        private bool _willItBeAMinion;
+        public bool WillItBeAMinion
+        {
+            get
+            {
+                return _willItBeAMinion;
+            }
+            set
+            {
+                _willItBeAMinion = value;
+                WillItBeASpell = !value;
+                if (value == true)
+                    CardToAdd = new Minion();
+                else
+                    CardToAdd = new Spell();
+                NotifyPropertyChanged("CardToAdd");
+                NotifyPropertyChanged("WillitBeAMinion");
+            }
+        }
+        
         private Card _card;
         public Card CardToAdd
         {
@@ -26,9 +63,10 @@ namespace HearthstoneDB.ViewModel
             set
             {
                 _card = value;
-                NotifyPropertyChanged("Card");
+                NotifyPropertyChanged("CardToAdd");
             }
         }
+
 
         public bool IsAdd { get; set; } = false;
 
@@ -37,8 +75,10 @@ namespace HearthstoneDB.ViewModel
             OnBrowseCommand = new DelegateCommand(BrowseAction, CanBrowseCommand);
             OnSaveCommand = new DelegateCommand(SaveAction, CanSaveCommand);
             OnCancelCommand = new DelegateCommand(CancelAction, CanCancelCommand);
+            WillItBeAMinion = true;
+            CardToAdd.ImagePath = "..\\Images\\Cards\\Default.png";
+            Title = "Add a card";
 
-            CardToAdd = new Card();
         }
 
 
@@ -47,8 +87,12 @@ namespace HearthstoneDB.ViewModel
             OnBrowseCommand = new DelegateCommand(BrowseAction, CanBrowseCommand);
             OnSaveCommand = new DelegateCommand(SaveAction, CanSaveCommand);
             OnCancelCommand = new DelegateCommand(CancelAction, CanCancelCommand);
-
+            if (c is Minion)
+                WillItBeAMinion = true;
+            else
+                WillItBeAMinion = false;
             CardToAdd = c;
+            Title = "Edit a card";
         }
         private void BrowseAction(Object o)
         {
@@ -58,6 +102,7 @@ namespace HearthstoneDB.ViewModel
 
             string fullPath = fileDialog.FileName;
             CardToAdd.ImagePath = fullPath;
+            NotifyPropertyChanged("CardToAdd");
 
         }
 

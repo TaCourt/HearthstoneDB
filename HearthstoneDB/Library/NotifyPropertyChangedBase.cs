@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Library
 {
+    [Serializable]
     public class NotifyPropertyChangedBase : INotifyPropertyChanged
     {
+        [field: NonSerializedAttribute()]
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public void NotifyPropertyChanged(String info)
         {
             if (PropertyChanged != null)

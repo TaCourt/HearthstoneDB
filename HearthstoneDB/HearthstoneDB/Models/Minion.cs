@@ -7,6 +7,7 @@ using Library;
 
 namespace HearthstoneDB.Models
 {
+    [Serializable]
     public class Minion : Card
     {
         private int m_strength;

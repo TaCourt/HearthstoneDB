@@ -5,7 +5,7 @@
         xmlns:vm="clr-namespace:HearthstoneDB.ViewModel"
         xmlns:conv="clr-namespace:HearthstoneDB.Converters"
         DataContext="vm:AddViewModel"
-        Title="AddView" Height="580" Width="300" MaxWidth="400">
+        Title="AddView" Height="590" Width="300" MaxWidth="400">
     <Window.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
     </Window.Resources>

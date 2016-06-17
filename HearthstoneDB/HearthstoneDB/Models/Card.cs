@@ -8,6 +8,7 @@ using System.IO;
 
 namespace HearthstoneDB.Models
 {
+    [Serializable]
     public class Card : NotifyPropertyChangedBase
     {
         /// <summary>

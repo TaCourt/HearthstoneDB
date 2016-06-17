@@ -7,6 +7,7 @@ using Library;
 
 namespace HearthstoneDB.Models
 {
+    [Serializable]
     public class Spell : Card
     {
         public Spell(String name, RarityType rarity, int cost, String effect, String story, String imagePath)

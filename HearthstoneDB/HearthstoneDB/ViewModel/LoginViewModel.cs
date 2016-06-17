@@ -26,6 +26,7 @@ namespace HearthstoneDB.ViewModel
             {
                 _usernameValue = value;
                 NotifyPropertyChanged("UsernameValue");
+                OnLoginCommand.RaiseCanExecuteChanged();
             }
             get
             {
@@ -95,7 +96,7 @@ namespace HearthstoneDB.ViewModel
 
         private bool CanLoginCommand(Object o)
         {
-            return true;//!string.IsNullOrEmpty(UsernameValue);
+            return !string.IsNullOrEmpty(UsernameValue);
         }
     }
 }

@@ -10,6 +10,9 @@ using HearthstoneDB.Models;
 using System.Windows;
 using TD1.Events;
 using System.Windows.Media;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace HearthstoneDB.ViewModel
 {
@@ -233,6 +236,8 @@ namespace HearthstoneDB.ViewModel
 
         public ListCardViewModel()
         {
+
+            /*
             CardList = new ObservableCollection<Card>()
             {
                 new Spell
@@ -322,14 +327,16 @@ namespace HearthstoneDB.ViewModel
 
                 
             };
-
-            CardListToShow = CardList;
+            */
+            
             IsLayoutVisible = false;
             IsGoldenChecked = false;
             OnAddCommand = new DelegateCommand(AddAction, CanAddCommand);
             OnEditCommand = new DelegateCommand(EditAction, CanEditCommand);
             OnDeleteCommand = new DelegateCommand(DeleteAction, CanDeleteCommand);
             OnSearchCommand = new DelegateCommand(SearchAction, CanSearchCommand);
+            Load();
+            CardListToShow = CardList;
         }
 
 
@@ -347,14 +354,18 @@ namespace HearthstoneDB.ViewModel
             {
                     CardList.Add(Add.ViewModel.CardToAdd);
             }
-
-             NotifyPropertyChanged("CardList");
+            if (!string.IsNullOrEmpty(Add.ViewModel.CardToAdd.ImagePath) && Add.ViewModel.CardToAdd.ImagePath != "..\\Images\\Cards\\Default.png")
+            {
+                File.Copy(Add.ViewModel.CardToAdd.ImagePath, "..\\..\\Images\\" + Path.GetFileName(Add.ViewModel.CardToAdd.ImagePath));
+                Add.ViewModel.CardToAdd.ImagePath = "..\\..\\Images\\" + Path.GetFileName(Add.ViewModel.CardToAdd.ImagePath);
+            }
+            NotifyPropertyChanged("CardList");
          }
 
         private void CloseAddView(object sender, EventArgs e)
         {
+            Save();
             Add.Close();
-
             ButtonPressedEvent.GetEvent().Handler -= CloseAddView;
         }
 
@@ -431,6 +442,7 @@ namespace HearthstoneDB.ViewModel
                 CardListToShow = CardList;
             }
 
+
         }
 
 
@@ -453,6 +465,29 @@ namespace HearthstoneDB.ViewModel
         {
             return !String.IsNullOrEmpty(SearchBar);
         }
+
+
+        public void Save()
+        {
+
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("..\\..\\Data\\Cards.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, CardList);
+            stream.Close();
+            
+        }
+
+        public void Load()
+        {
+            ObservableCollection<Card> FromFile = null;
+
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("..\\..\\Data\\Cards.bin", FileMode.Open, FileAccess.Read, FileShare.Read);
+            FromFile = (ObservableCollection<Card>)formatter.Deserialize(stream);
+            CardList = FromFile;
+            stream.Close();
+        }
+
 
     }
 }

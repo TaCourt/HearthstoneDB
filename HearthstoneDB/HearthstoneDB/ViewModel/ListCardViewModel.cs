@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using HearthstoneDB.Models;
 using System.Windows;
 using TD1.Events;
+using System.Windows.Media;
 
 namespace HearthstoneDB.ViewModel
 {
@@ -18,7 +19,65 @@ namespace HearthstoneDB.ViewModel
         public DelegateCommand OnAddCommand { get; set; }
         public DelegateCommand OnEditCommand { get; set; }
         public DelegateCommand OnDeleteCommand { get; set; }
-        // private bool _isLayoutVisible;
+        public DelegateCommand OnSearchCommand { get; set; }
+
+        #region Font
+
+        public FontFamily FontFamily
+        {
+            get
+            {
+                return new FontFamily("Georgia");
+            }
+        }
+
+        public double FontSize { get; set; } = 15;
+        #endregion
+
+        private String _searchBar;
+        public String SearchBar
+        {
+            get
+            {
+                return _searchBar;
+            }
+            set
+            {
+                _searchBar = value;
+                NotifyPropertyChanged("SearchBar");
+            }
+        }
+
+        private bool _isLayoutNotVisible;
+        public bool IsLayoutNotVisible
+        {
+            get
+            {
+                return _isLayoutNotVisible;
+            }
+            set
+            {
+                _isLayoutNotVisible = value;
+                NotifyPropertyChanged("IsLayoutNotVisible");
+            }
+        }
+
+
+        private bool _isLayoutVisible;
+        public bool IsLayoutVisible
+        {
+            get
+            {
+                return _isLayoutVisible;
+            }
+            set
+            {
+                _isLayoutVisible = value;
+                IsLayoutNotVisible = !value;
+                NotifyPropertyChanged("IsLayoutVisible");
+            }
+        }
+
         #region EtatsFiltres
         public bool _isCommonChecked;
         public bool IsCommonChecked
@@ -77,7 +136,6 @@ namespace HearthstoneDB.ViewModel
         }
         #endregion
 
-
         public AddView Add { get; set; }
         private AddView _addView { get; set; }
 
@@ -103,6 +161,7 @@ namespace HearthstoneDB.ViewModel
             set
             {
                 _card = value;
+                IsLayoutVisible = true;
                 NotifyPropertyChanged("Card");
                 NotifyPropertyChanged("CardList");
             }
@@ -231,10 +290,11 @@ namespace HearthstoneDB.ViewModel
             };
 
             CardListToShow = CardList;
+            IsLayoutVisible = false;
             OnAddCommand = new DelegateCommand(AddAction, CanAddCommand);
             OnEditCommand = new DelegateCommand(EditAction, CanEditCommand);
             OnDeleteCommand = new DelegateCommand(DeleteAction, CanDeleteCommand);
-
+            OnSearchCommand = new DelegateCommand(SearchAction, CanSearchCommand);
         }
 
 
@@ -286,6 +346,18 @@ namespace HearthstoneDB.ViewModel
 
          }
 
+        private void SearchAction(Object o)
+        {
+            if (SearchBar != null)
+                CardListToShow = new ObservableCollection<Card>(CardList.Where(c => c.Name == SearchBar));
+            else if(SearchBar == "")
+                CardListToShow = CardList;
+
+            NotifyPropertyChanged("CardListToShow");
+        }
+
+
+
         private void filter(bool IsCommonChecked, bool IsRareChecked, bool IsEpicChecked, bool IslegendaryChecked)
         {
 
@@ -327,12 +399,17 @@ namespace HearthstoneDB.ViewModel
 
         private bool CanEditCommand(Object o)
         {
-            return true;
+            return Card != null;
         }
 
         private bool CanDeleteCommand(Object o)
         {
             return true;
+        }
+
+        private bool CanSearchCommand(Object o)
+        {
+            return true;//!String.IsNullOrEmpty(SearchBar);
         }
 
     }

@@ -14,6 +14,16 @@ namespace HearthstoneDB.Models
         /// Attribut et propriété corresp
         /// </summary>
 
+        public bool IsAMinion
+        {
+            get
+            {
+                if (this is Minion)
+                    return true;
+                else
+                    return false;
+            }
+        }
 
         public enum RarityType { Common, Rare, Epic, Legendary }
         public RarityType CardRarity;
@@ -121,7 +131,6 @@ namespace HearthstoneDB.Models
 
         public Card()
         {
-
         }
 
         public Card(String name, RarityType rarity, int cost, String effect, String story, String imagePath)
@@ -138,5 +147,6 @@ namespace HearthstoneDB.Models
         {
             return string.Format("{0}", Name); 
         }
+
     }
 }

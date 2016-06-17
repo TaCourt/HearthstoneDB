@@ -37,7 +37,7 @@
             <MenuItem Header="" />
         </Menu>
 
-        <Image Grid.RowSpan="3" Margin="0,0,0,0" Source="..\Images\bande.png" Width="1000" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" IsEnabled="False"/>
+        <Image Grid.RowSpan="3" Margin="0,0,0,0" Source="..\Images\bande.png" Width="500" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" IsEnabled="False"/>
 
         <StackPanel Margin="8,0,0,0" Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" Grid.RowSpan="2">
             <Label>Format :</Label>
@@ -53,6 +53,7 @@
         <!-- Recherche et catégories -->
 
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <TextBlock Text="Search :" Margin="0,0,10,0" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBox Text="{Binding SearchBar,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" HorizontalAlignment="Right" Width="80" ></TextBox>
             <Button Margin="5,0,10,0" IsDefault="True" Command="{Binding OnSearchCommand}">Ok</Button>
         </StackPanel>
@@ -112,26 +113,26 @@
 
 
                 <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="10,0,0,0" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Cost :"></TextBlock>
-                <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="10,0,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.Cost}"></TextBlock>
+                <TextBlock FontSize="{Binding FontSize}" Padding="10,0,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.Cost}"></TextBlock>
 
                 <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="10,0,0,0" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Effect :"></TextBlock>
                 <TextBlock FontSize="{Binding FontSize}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.Effect}" TextWrapping="Wrap"></TextBlock>
 
                 <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="10,0,0,0" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Rarity :"></TextBlock>
-                <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="10,0,0,0" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.Rarity}"></TextBlock>
+                <TextBlock FontSize="{Binding FontSize}"  Padding="10,0,0,0" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.Rarity}"></TextBlock>
 
                 <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Visibility="{Binding Card.IsAMinion,Converter={StaticResource BoolToVisibility}}" Padding="10,0,0,0" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Strength :" ></TextBlock>
-                <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="10,0,0,0" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.Strength}"></TextBlock>
+                <TextBlock FontSize="{Binding FontSize}"  Padding="10,0,0,0" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.Strength}"></TextBlock>
 
                 <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Visibility="{Binding Card.IsAMinion,Converter={StaticResource BoolToVisibility}}" Padding="10,0,0,0" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Health :"></TextBlock>
-                <TextBlock FontSize="{Binding FontSize}" FontFamily="{Binding FontFamily}" Padding="10,0,0,0" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.HealthPoints}"></TextBlock>
+                <TextBlock FontSize="{Binding FontSize}"  Padding="10,0,0,0" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Card.HealthPoints}"></TextBlock>
 
 
             </Grid>
 
             <Label FontFamily="{Binding FontFamily}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Content="{Binding Card.Name}" FontSize="35" FontWeight="Bold" ></Label>
             <Image Stretch="Uniform" HorizontalAlignment="Center" Visibility="{Binding IsGoldenNotChecked,Converter={StaticResource BoolToVisibility}}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Source="{Binding Card.ImagePath}" Margin="0,0,0,20"/>
-            <WebBrowser Grid.Column="1" Grid.Row="2" Source="http://wow.zamimg.com/images/hearthstone/cards/frfr/animated/EX1_007_premium.gif?12580" Visibility="{Binding IsGoldenChecked,Converter={StaticResource BoolToVisibility}}" ></WebBrowser>
+            <MediaElement LoadedBehavior="Play" Grid.Column="1" Grid.Row="2" Source="../Images/Cards/AcolyteofPainG.gif" Visibility="{Binding IsGoldenChecked,Converter={StaticResource BoolToVisibility}}" ></MediaElement>
         </Grid>
 
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">

@@ -62,7 +62,7 @@ namespace HearthstoneDB.ViewModel
                 NotifyPropertyChanged("IsGoldenChecked");
             }
         }
-
+        
         private String _searchBar;
         public String SearchBar
         {
@@ -320,7 +320,7 @@ namespace HearthstoneDB.ViewModel
                     Story = "This is Rank 1. Rank 2 is Chocolate Milk Barrier."
                 }
 
-
+                
             };
 
             CardListToShow = CardList;
@@ -383,7 +383,13 @@ namespace HearthstoneDB.ViewModel
 
         private void SearchAction(Object o)
         { 
-            CardListToShow = new ObservableCollection<Card>(CardList.Where(c => c.Name == SearchBar));
+
+            CardListToShow = new ObservableCollection<Card>(CardList.Where(c => c.Name.ToLower().Contains(SearchBar.ToLower())));
+            if (CardListToShow.Count == 1)
+            {
+                Card = CardListToShow.First();
+                NotifyPropertyChanged("Card");
+            }
             NotifyPropertyChanged("CardListToShow");
            
 

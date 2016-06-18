@@ -10,15 +10,19 @@ using System.IO;
 using System.Xml.Serialization;
 using TD1.Events;
 using System.Windows.Controls;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace HearthstoneDB.ViewModel
 {
     public class LoginViewModel : NotifyPropertyChangedBase
     {
         private Users usersList;
+
         private CreateUserView createUser;
         public DelegateCommand OnLoginCommand { get; set; }
         public DelegateCommand OnCreateUserCommand { get; set; }
+
         private string _usernameValue;
         public string UsernameValue
         {
@@ -33,35 +37,33 @@ namespace HearthstoneDB.ViewModel
                 return _usernameValue ;
             }
         }
-        public String password;
+
+        private string _passwordValue;
+        public string PasswordValue
+        {
+            set
+            {
+                _passwordValue = value;
+                NotifyPropertyChanged("PasswordValue");
+                OnLoginCommand.RaiseCanExecuteChanged();
+            }
+            get
+            {
+                return _passwordValue;
+            }
+        }
 
         public LoginViewModel()
         {
             OnCreateUserCommand = new DelegateCommand(CreateUserAction, CanCreateUserCommand);
             OnLoginCommand = new DelegateCommand(LoginAction, CanLoginCommand);
-
-            // Si le fichier users.xml existe
-
-            if (File.Exists("users.xml"))
-            {
-                // On charge la liste des utilisateurs à partir du fichier
-
-                XmlSerializer xs = new XmlSerializer(typeof(Users));
-                using (StreamReader sr = new StreamReader("users.xml"))
-                {
-                    usersList = xs.Deserialize(sr) as Users;
-                }
-            }
-            else
-            {
-                // Sinon on créé une nouvelle liste
-                usersList = new Users();
-            }
+            LoadUsers();
+            
         }
 
         private void LoginAction(Object o)
         {
-            usersList.Login(UsernameValue,password);
+            usersList.Login(UsernameValue,PasswordValue);
         }
 
         private void CreateUserAction(Object o)
@@ -75,6 +77,7 @@ namespace HearthstoneDB.ViewModel
             if (createUser.ViewModel.IsAdd)
             {
                 usersList.UsersList.Add(createUser.ViewModel.UserToAdd);
+                SaveUsers();
             }
 
             NotifyPropertyChanged("UsersList");
@@ -84,7 +87,6 @@ namespace HearthstoneDB.ViewModel
         private void CloseCreateView(object sender, EventArgs e)
         {
             createUser.Close();
-
             ButtonPressedEvent.GetEvent().Handler -= CloseCreateView;
         }
 
@@ -96,7 +98,28 @@ namespace HearthstoneDB.ViewModel
 
         private bool CanLoginCommand(Object o)
         {
-            return !string.IsNullOrEmpty(UsernameValue);
+            return !string.IsNullOrEmpty(UsernameValue) && !string.IsNullOrEmpty(PasswordValue);
+        }
+
+        public void SaveUsers()
+        {
+
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream("..\\..\\Data\\UsersList.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, usersList);
+            stream.Close();
+
+        }
+
+        public void LoadUsers()
+        {
+
+                Users FromFile = null;
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream("..\\..\\Data\\UsersList.bin", FileMode.Open, FileAccess.Read, FileShare.Read);
+                FromFile = (Users)formatter.Deserialize(stream);
+                usersList = FromFile;
+                stream.Close();
         }
     }
 }

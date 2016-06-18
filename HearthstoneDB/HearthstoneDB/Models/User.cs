@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace HearthstoneDB.Models
 {
+    [Serializable]
     public class User : IEquatable<User>
     {
+
         public String Username
         {
             get;

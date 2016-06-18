@@ -37,6 +37,7 @@ namespace HearthstoneDB.ViewModel
         public double FontSize { get; set; } = 15;
         #endregion
 
+        User User;
         public bool _isGoldenNotChecked;
         public bool IsGoldenNotChecked
         {
@@ -234,7 +235,7 @@ namespace HearthstoneDB.ViewModel
             }
         }
 
-        public ListCardViewModel()
+        public ListCardViewModel(User u)
         {
 
             IsLayoutVisible = false;
@@ -243,7 +244,7 @@ namespace HearthstoneDB.ViewModel
             OnEditCommand = new DelegateCommand(EditAction, CanEditCommand);
             OnDeleteCommand = new DelegateCommand(DeleteAction, CanDeleteCommand);
             OnSearchCommand = new DelegateCommand(SearchAction, CanSearchCommand);
-            Load();
+            Load(u);
             CardListToShow = CardList;
         }
 
@@ -287,7 +288,7 @@ namespace HearthstoneDB.ViewModel
             {
                 CardList.Remove(Card);
                 CardList.Add(Add.ViewModel.CardToAdd);
-                IsLayoutVisible = false;
+                Card = CardList.First(c => c.Name == Add.ViewModel.CardToAdd.Name);
                 Save();
             }
 
@@ -391,7 +392,7 @@ namespace HearthstoneDB.ViewModel
             
         }
 
-        public void Load()
+        public void Load(User user)
         {
             ObservableCollection<Card> FromFile = null;
 

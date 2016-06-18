@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HearthstoneDB.Models
 {
+    [Serializable]
     public class Users
     {
         public List<User> UsersList
@@ -27,6 +29,7 @@ namespace HearthstoneDB.Models
         private void AddUser(User u)
         {
             UsersList.Add(u);
+            Directory.CreateDirectory("..\\..\\Data\\" + u.Username);
         }
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace HearthstoneDB.Models
             if (userFound == null)
             {
                 // Lancer une exception
-                throw new Exception("Username incorrect.");
+                throw new Exception("Username or password incorrect.");
             }
 
             // Si le mot de passe est incorrect

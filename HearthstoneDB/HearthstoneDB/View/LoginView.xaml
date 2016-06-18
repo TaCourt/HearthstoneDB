@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:pass="clr-namespace:HearthstoneDB"
         xmlns:local="clr-namespace:HearthstoneDB.View"
         mc:Ignorable="d"
         Title="LoginView" Height="300" Width="250">
@@ -14,7 +15,7 @@
             <TextBox Height="30" FontSize="17" Name="Username" Text="{Binding UsernameValue,UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Password:" />
-            <PasswordBox Height="30" FontSize="17" Name="Password" />
+            <TextBox Height="30" FontSize="17" Name="Password" Text="{Binding PasswordValue, UpdateSourceTrigger=PropertyChanged}"/>
             <Grid Margin="20, 20, 20, 0">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>

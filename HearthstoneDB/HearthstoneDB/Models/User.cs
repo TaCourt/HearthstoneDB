@@ -45,7 +45,7 @@ namespace HearthstoneDB.Models
             ValidatePassword(password);
             this.Password = password;
             SaveFile = "..\\..\\Data\\" + Username + ".bin";
-            File.Create(SaveFile);
+            File.Copy("..\\..\\Data\\Default.bin", SaveFile);
         }
 
         /// <summary>

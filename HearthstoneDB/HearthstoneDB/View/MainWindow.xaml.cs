@@ -26,10 +26,10 @@ namespace HearthstoneDB
 
         private ListCardViewModel _viewModel;
 
-        public MainWindow()
+        public MainWindow(User u)
         {
             InitializeComponent();
-            _viewModel = new ListCardViewModel();
+            _viewModel = new ListCardViewModel(u);
             DataContext = _viewModel;
 
         }

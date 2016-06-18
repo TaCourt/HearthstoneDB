@@ -7,6 +7,9 @@
         xmlns:local="clr-namespace:HearthstoneDB.View"
         mc:Ignorable="d"
         Title="LoginView" Height="300" Width="250">
+    <Window.Background>
+        <ImageBrush ImageSource="..\Images\ParcheminFnd.jpg" Opacity="0.9" ></ImageBrush>
+    </Window.Background>
     <Grid>
         <StackPanel Margin="10">
             <Label Content="Login" FontSize="24" />

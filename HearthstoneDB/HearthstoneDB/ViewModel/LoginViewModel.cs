@@ -63,7 +63,13 @@ namespace HearthstoneDB.ViewModel
 
         private void LoginAction(Object o)
         {
-            usersList.Login(UsernameValue,PasswordValue);
+            User user;
+            user = usersList.Login(UsernameValue,PasswordValue);
+
+            MainWindow main = new MainWindow(user);
+            main.Name = "HearthstoneDB";
+            main.ShowDialog();
+            
         }
 
         private void CreateUserAction(Object o)
@@ -76,7 +82,9 @@ namespace HearthstoneDB.ViewModel
 
             if (createUser.ViewModel.IsAdd)
             {
-                usersList.UsersList.Add(createUser.ViewModel.UserToAdd);
+
+                User userAdd = new User(createUser.ViewModel.UserToAdd.Username, createUser.ViewModel.UserToAdd.Password);
+                usersList.UsersList.Add(userAdd);
                 SaveUsers();
             }
 

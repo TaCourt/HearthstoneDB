@@ -39,7 +39,7 @@
 
         <Image Grid.RowSpan="3" Margin="0,0,0,0" Source="..\Images\bande.png" Width="500" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" IsEnabled="False"/>
 
-        <StackPanel Margin="8,0,0,0" Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" Grid.RowSpan="2">
+        <StackPanel Visibility="Hidden" Margin="8,0,0,0" Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" Grid.RowSpan="2">
             <Label>Format :</Label>
             <RadioButton Content="Created cards"></RadioButton>
             <RadioButton Content="Hearthstone cards"></RadioButton>

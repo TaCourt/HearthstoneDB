@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace HearthstoneDB.Models
     [Serializable]
     public class User : IEquatable<User>
     {
+
+        public string SaveFile { get; set; }
 
         public String Username
         {
@@ -41,6 +44,8 @@ namespace HearthstoneDB.Models
         {
             ValidatePassword(password);
             this.Password = password;
+            SaveFile = "..\\..\\Data\\" + Username + ".bin";
+            File.Create(SaveFile);
         }
 
         /// <summary>

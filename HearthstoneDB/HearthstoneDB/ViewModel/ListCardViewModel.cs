@@ -175,17 +175,6 @@ namespace HearthstoneDB.ViewModel
         public AddView Add { get; set; }
         private AddView _addView { get; set; }
 
-        private User _authenticatedUser;
-
-        public User AuthenticatedUser
-        {
-            get { return _authenticatedUser; }
-            set
-            {
-                _authenticatedUser = value;
-                NotifyPropertyChanged("AuthenticatedUser");
-            }
-        }
 
         private Card _card;
         public Card Card
@@ -237,7 +226,7 @@ namespace HearthstoneDB.ViewModel
 
         public ListCardViewModel(User u)
         {
-
+            User = u;
             IsLayoutVisible = false;
             IsGoldenChecked = false;
             OnAddCommand = new DelegateCommand(AddAction, CanAddCommand);
@@ -262,7 +251,7 @@ namespace HearthstoneDB.ViewModel
             if (Add.ViewModel.IsAdd)
             {
                 CardList.Add(Add.ViewModel.CardToAdd);
-                Save();
+                Save(User);
             }
 
 
@@ -289,7 +278,7 @@ namespace HearthstoneDB.ViewModel
                 CardList.Remove(Card);
                 CardList.Add(Add.ViewModel.CardToAdd);
                 Card = CardList.First(c => c.Name == Add.ViewModel.CardToAdd.Name);
-                Save();
+                Save(User);
             }
 
             NotifyPropertyChanged("CardList");
@@ -304,7 +293,7 @@ namespace HearthstoneDB.ViewModel
                 CardList.Remove(Card);
                 NotifyPropertyChanged("CardList");
                 IsLayoutVisible = false;
-                Save();
+                Save(User);
             }
 
 
@@ -382,11 +371,11 @@ namespace HearthstoneDB.ViewModel
         }
 
 
-        public void Save()
+        public void Save(User user)
         {
 
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("..\\..\\Data\\Cards.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream(user.SaveFile, FileMode.Create, FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, CardList);
             stream.Close();
             
@@ -394,12 +383,20 @@ namespace HearthstoneDB.ViewModel
 
         public void Load(User user)
         {
+
             ObservableCollection<Card> FromFile = null;
 
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("..\\..\\Data\\Cards.bin", FileMode.Open, FileAccess.Read, FileShare.Read);
-            FromFile = (ObservableCollection<Card>)formatter.Deserialize(stream);
-            CardList = FromFile;
+            Stream stream = new FileStream(user.SaveFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+            if (new FileInfo(user.SaveFile).Length != 0)
+            {
+                FromFile = (ObservableCollection<Card>)formatter.Deserialize(stream);
+                CardList = FromFile;
+            }
+            else
+            {
+                CardList = new ObservableCollection<Card>();
+            }
             stream.Close();
         }
 

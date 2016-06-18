@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:HearthstoneDB.View"
         mc:Ignorable="d"
         Title="CreateUserView" Height="320" Width="250">
+    <Window.Background>
+        <ImageBrush ImageSource="..\Images\ParcheminFnd.jpg" Opacity="0.9" ></ImageBrush>
+    </Window.Background>
     <Grid>
         <StackPanel Margin="10">
             <Label Content="Create User" FontSize="24"/>

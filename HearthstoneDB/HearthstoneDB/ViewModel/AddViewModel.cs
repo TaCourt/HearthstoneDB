@@ -94,6 +94,7 @@ namespace HearthstoneDB.ViewModel
             CardToAdd = c;
             Title = "Edit a card";
         }
+
         private void BrowseAction(Object o)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -116,6 +117,7 @@ namespace HearthstoneDB.ViewModel
 
         private void CancelAction(Object o)
         {
+            IsAdd = false;
             ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
 
         }

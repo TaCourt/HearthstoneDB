@@ -237,98 +237,6 @@ namespace HearthstoneDB.ViewModel
         public ListCardViewModel()
         {
 
-            /*
-            CardList = new ObservableCollection<Card>()
-            {
-                new Spell
-                {
-                    
-                    Name = "Pyroblast",
-                    Rarity = "Epic",
-                    Cost = 10,
-                    Effect = "Deals 10 damage",
-                    Story = "Take the time for an evil laugh after you draw this card.",
-                    ImagePath = "..\\Images\\Cards\\pyro.png"
-                    
-                },
-                new Minion
-                {
-                    Name = "Leeroy Jenkins",
-                    ImagePath = "..\\Images\\Cards\\leeroy.png",
-                    Strength = 6,
-                    HealthPoints = 2,
-                    Cost = 5,
-                    Effect = "Charge. Battlecry : Summons two 1/1 Whelps for your opponent.",
-                    Rarity = "Legendary",
-                    Story = "At least he has angry chicken"  
-                },
-                new Minion
-                {
-                    Name = "Alextraza",
-                    ImagePath = "..\\Images\\Cards\\Alex.png",
-                    Strength = 8,
-                    HealthPoints = 8,
-                    Cost = 9,
-                    Effect = "Battlecry : Set a hero's remaining Health to 15.",
-                    Rarity = "Legendary",
-                    Story = "Alexstrasza the Life-Binder brings life and hope to everyone. Except Deathwing. And Malygos. And Nekros."
-                },
-                new Minion
-                {
-                    Name = "Doomsayer",
-                    ImagePath = "..\\Images\\Cards\\Doomsayer.png",
-                    Strength = 0,
-                    HealthPoints = 7,
-                    Cost = 2,
-                    Effect = "At the start of your turn, destroy ALL minions.",
-                    Rarity = "Epic",
-                    Story = "He's almost been right so many times. He was sure it was coming during the Cataclysm."
-                },
-                new Minion
-                {
-                    Name = "Flamewaker",
-                    ImagePath = "..\\Images\\Cards\\Flamewaker.png",
-                    Strength = 2,
-                    HealthPoints = 4,
-                    Cost = 3,
-                    Effect = "After you cast a spell, deal 2 damage randomly split among all enemies.",
-                    Rarity = "Rare",
-                    Story = "Flamewakers HATE being confused for Flamewalkers. They just wake up fire, they don’t walk on it. Walking on fire is CRAZY."
-                },
-                new Spell
-                {
-                    Name = "Equality",
-                    ImagePath = "..\\Images\\Cards\\Equality.png",
-                    Cost = 2,
-                    Effect = "Change the Health of ALL minions to 1.",
-                    Rarity = "Rare",
-                    Story = "We are all special unique snowflakes... with 1 Health."
-                },
-                new Minion
-                {
-                    Name = "Acolyte of pain",
-                    ImagePath = "..\\Images\\Cards\\AcolyteofPain.png",
-                    Strength = 1,
-                    HealthPoints = 3,
-                    Cost = 3,
-                    Effect = "Whenever this minion takes damage, draw a card.",
-                    Rarity = "Common",
-                    Story = "He trained when he was younger to be an acolyte of joy, but things didn’t work out like he thought they would."
-                },
-                new Spell
-                {
-                    Name = "Ice barrier",
-                    ImagePath = "..\\Images\\Cards\\IceBarrier.png",
-                    Cost = 3,
-                    Effect = "Secret: When your hero is attacked, gain 8 Armor.",
-                    Rarity = "Common",
-                    Story = "This is Rank 1. Rank 2 is Chocolate Milk Barrier."
-                }
-
-                
-            };
-            */
-            
             IsLayoutVisible = false;
             IsGoldenChecked = false;
             OnAddCommand = new DelegateCommand(AddAction, CanAddCommand);
@@ -352,19 +260,17 @@ namespace HearthstoneDB.ViewModel
 
             if (Add.ViewModel.IsAdd)
             {
-                    CardList.Add(Add.ViewModel.CardToAdd);
+                CardList.Add(Add.ViewModel.CardToAdd);
+                Save();
             }
-            if (!string.IsNullOrEmpty(Add.ViewModel.CardToAdd.ImagePath) && Add.ViewModel.CardToAdd.ImagePath != "..\\Images\\Cards\\Default.png")
-            {
-                File.Copy(Add.ViewModel.CardToAdd.ImagePath, "..\\..\\Images\\" + Path.GetFileName(Add.ViewModel.CardToAdd.ImagePath));
-                Add.ViewModel.CardToAdd.ImagePath = "..\\..\\Images\\" + Path.GetFileName(Add.ViewModel.CardToAdd.ImagePath);
-            }
+
+
             NotifyPropertyChanged("CardList");
          }
 
         private void CloseAddView(object sender, EventArgs e)
         {
-            Save();
+            
             Add.Close();
             ButtonPressedEvent.GetEvent().Handler -= CloseAddView;
         }
@@ -377,20 +283,29 @@ namespace HearthstoneDB.ViewModel
             Add.Name = "Edit";
             Add.ShowDialog();
 
+            if (Add.ViewModel.IsAdd)
+            {
+                CardList.Remove(Card);
+                CardList.Add(Add.ViewModel.CardToAdd);
+                IsLayoutVisible = false;
+                Save();
+            }
+
             NotifyPropertyChanged("CardList");
          }
 
 
          private void DeleteAction(Object o)
          {
-
              MessageBoxResult message = MessageBox.Show("Are you sure you want to delete this card?", "Delete confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if(message == MessageBoxResult.Yes){
                 CardList.Remove(Card);
                 NotifyPropertyChanged("CardList");
+                IsLayoutVisible = false;
+                Save();
             }
-            IsLayoutVisible = false;
+
 
          }
 
@@ -441,7 +356,6 @@ namespace HearthstoneDB.ViewModel
             {
                 CardListToShow = CardList;
             }
-
 
         }
 

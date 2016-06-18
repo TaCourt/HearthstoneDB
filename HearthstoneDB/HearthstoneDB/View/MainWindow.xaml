@@ -132,7 +132,6 @@
 
             <Label FontFamily="{Binding FontFamily}" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Content="{Binding Card.Name}" FontSize="35" FontWeight="Bold" ></Label>
             <Image Stretch="Uniform" HorizontalAlignment="Center" Visibility="{Binding IsGoldenNotChecked,Converter={StaticResource BoolToVisibility}}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Source="{Binding Card.ImagePath}" Margin="0,0,0,20"/>
-            <MediaElement LoadedBehavior="Play" Grid.Column="1" Grid.Row="2" Source="../Images/Cards/AcolyteofPainG.gif" Visibility="{Binding IsGoldenChecked,Converter={StaticResource BoolToVisibility}}" ></MediaElement>
         </Grid>
 
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
